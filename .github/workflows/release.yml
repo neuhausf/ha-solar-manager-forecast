@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Pack the solar_manager_forecast dir as a zip and upload to the release
       - name: ZIP solar_manager_forecast Dir
         run: |
           cd ${{ github.workspace }}/custom_components/solar_manager_forecast
           zip solar_manager_forecast.zip -r ./
+
       - name: Upload zip to release
         uses: svenstaro/upload-release-action@v1-release
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GH_PAT }}
           file: ${{ github.workspace }}/custom_components/solar_manager_forecast/solar_manager_forecast.zip
           asset_name: solar_manager_forecast.zip
           tag: ${{ github.ref }}
