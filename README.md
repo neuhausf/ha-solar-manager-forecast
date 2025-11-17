@@ -1,6 +1,6 @@
 # Home Assistant Solar Manager Forecast Integration
 
-This custom component integrates the **Solar Manager** cloud PV forecast with Home Assistant.  
+This custom component integrates the [**Solar Manager**](https://solarmanager.ch) cloud PV forecast with Home Assistant.  
 It fetches the official Solar Manager production forecast (15-minute resolution for several days) and:
 
 - exposes **power forecast sensors** (now, +15 min, +30 min),
