@@ -12,19 +12,37 @@ from aiohttp import ClientSession, BasicAuth
 class SolarManagerForecastError(Exception):
     """Generic error raised for Solar Manager forecast issues."""
 
-
 def _timed_value(
     at: dt.datetime,
     data: Dict[dt.datetime, int],
 ) -> Optional[int]:
-    """Return the value for a specific time from a time-ordered dict."""
-    value: Optional[int] = None
-    for timestamp, cur_value in data.items():
+    """Return the value for a specific time from a time-ordered dict.
+
+    - If the time is before the first timestamp, the first value is used.
+    - If the time is between timestamps, the last known value at or before
+      the given time is used.
+    - If the time is after all timestamps, the last value is used.
+    """
+    if not data:
+        return None
+
+    # The dict is insertion-ordered; we filled it in sorted order before
+    iterator = iter(data.items())
+    first_ts, first_val = next(iterator)
+
+    # Case 1: time is before or exactly at the first forecast point
+    if at <= first_ts:
+        return first_val
+
+    # Case 2: time is within the known range → keep last known value
+    value: Optional[int] = first_val
+    for timestamp, cur_value in iterator:
         if timestamp > at:
             return value
         value = cur_value
-    return value
 
+    # Case 3: time is after all known points → return last value
+    return value
 
 def _interval_value_sum(
     start: dt.datetime,
