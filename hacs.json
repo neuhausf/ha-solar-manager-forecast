@@ -1,7 +1,7 @@
 {
-    "name": "Open-Meteo Solar Forecast",
+    "name": "Solar Manager Solar Forecast",
     "render_readme": true,
-    "homeassistant": "2022.11",
+    "homeassistant": "2025.10",
     "zip_release": true,
-    "filename": "open_meteo_solar_forecast.zip"
+    "filename": "solar_manager_forecast.zip"
 }

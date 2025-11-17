@@ -12,16 +12,16 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      # Pack the open_meteo_solar_forecast dir as a zip and upload to the release
-      - name: ZIP open_meteo_solar_forecast Dir
+      # Pack the solar_manager_forecast dir as a zip and upload to the release
+      - name: ZIP solar_manager_forecast Dir
         run: |
-          cd ${{ github.workspace }}/custom_components/open_meteo_solar_forecast
-          zip open_meteo_solar_forecast.zip -r ./
+          cd ${{ github.workspace }}/custom_components/solar_manager_forecast
+          zip solar_manager_forecast.zip -r ./
       - name: Upload zip to release
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/custom_components/open_meteo_solar_forecast/open_meteo_solar_forecast.zip
-          asset_name: open_meteo_solar_forecast.zip
+          file: ${{ github.workspace }}/custom_components/solar_manager_forecast/solar_manager_forecast.zip
+          asset_name: solar_manager_forecast.zip
           tag: ${{ github.ref }}
           overwrite: true

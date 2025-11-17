@@ -1,0 +1,54 @@
+{
+  "title": "Solar Manager Forecast",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Solar Manager Forecast",
+        "description": "Configure access to your Solar Manager cloud forecast.",
+        "data": {
+          "name": "Name",
+          "username": "Username",
+          "password": "Password",
+          "smid": "Solar Manager ID"
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "The Solar Manager ID is missing or invalid.",
+      "cannot_connect": "Could not connect to Solar Manager. Please check your credentials and try again.",
+      "unknown": "Unexpected error while setting up the integration."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Solar Manager Forecast options",
+        "description": "Update connection settings for Solar Manager.",
+        "data": {
+          "name": "Name",
+          "username": "Username",
+          "password": "Password",
+          "smid": "Solar Manager ID"
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "The Solar Manager ID is missing or invalid.",
+      "cannot_connect": "Could not connect to Solar Manager. Please check your credentials and try again.",
+      "unknown": "Unexpected error while saving the options."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "power_production_now": {
+        "name": "Estimated power production now"
+      },
+      "power_production_next_15minutes": {
+        "name": "Estimated power production in 15 minutes"
+      },
+      "power_production_next_30minutes": {
+        "name": "Estimated power production in 30 minutes"
+      }
+    }
+  }
+}

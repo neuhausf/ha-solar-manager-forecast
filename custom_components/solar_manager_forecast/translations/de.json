@@ -1,0 +1,54 @@
+{
+  "title": "Solar Manager Prognose",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Solar Manager Prognose",
+        "description": "Richte den Zugriff auf die Solar-Manager-Cloud-Prognose ein.",
+        "data": {
+          "name": "Name",
+          "username": "Benutzername",
+          "password": "Passwort",
+          "smid": "Solar Manager ID"
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "Die Solar Manager ID fehlt oder ist ungültig.",
+      "cannot_connect": "Verbindung zu Solar Manager fehlgeschlagen. Bitte prüfe Zugangsdaten und versuche es erneut.",
+      "unknown": "Unerwarteter Fehler beim Einrichten der Integration."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Solar Manager Prognose – Optionen",
+        "description": "Verbindungsparameter für Solar Manager anpassen.",
+        "data": {
+          "name": "Name",
+          "username": "Benutzername",
+          "password": "Passwort",
+          "smid": "Solar Manager ID"
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "Die Solar Manager ID fehlt oder ist ungültig.",
+      "cannot_connect": "Verbindung zu Solar Manager fehlgeschlagen. Bitte prüfe Zugangsdaten und versuche es erneut.",
+      "unknown": "Unerwarteter Fehler beim Speichern der Optionen."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "power_production_now": {
+        "name": "Geschätzte aktuelle PV-Leistung"
+      },
+      "power_production_next_15minutes": {
+        "name": "Geschätzte PV-Leistung in 15 Minuten"
+      },
+      "power_production_next_30minutes": {
+        "name": "Geschätzte PV-Leistung in 30 Minuten"
+      }
+    }
+  }
+}
