@@ -77,7 +77,10 @@ SENSORS: tuple[SolarManagerForecastSensorEntityDescription, ...] = (
     SolarManagerForecastSensorEntityDescription(
         key="power_production_next_24h_15min",
         translation_key="power_production_next_24h_15min",
-        state=_power_production_next_24h_15min,
+        device_class=SensorDeviceClass.POWER,
+        state=lambda estimate: estimate.power_production_now,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfPower.WATT,
         entity_registry_enabled_default=False,
     ),
 )
@@ -153,14 +156,19 @@ class SolarManagerForecastSensorEntity(
         )
 
     @property
-    def native_value(self) -> StateType | list[int]:
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Return extra state attributes for the sensor."""
+        if self.entity_description.key == "power_production_next_24h_15min":
+            estimate = self.coordinator.data
+            return {"forecasts": _power_production_next_24h_15min(estimate)}
+        return None
+
+    @property
+    def native_value(self) -> StateType:
         """Return the state of the sensor."""
         estimate = self.coordinator.data
 
         if self.entity_description.state is None:
             # Fallback: Attribute with the same name as key on the Estimate object
-            state: StateType = getattr(estimate, self.entity_description.key)
-        else:
-            state = self.entity_description.state(estimate)
-
-        return state
+            return getattr(estimate, self.entity_description.key)
+        return self.entity_description.state(estimate)
