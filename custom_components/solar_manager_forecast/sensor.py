@@ -77,7 +77,10 @@ SENSORS: tuple[SolarManagerForecastSensorEntityDescription, ...] = (
     SolarManagerForecastSensorEntityDescription(
         key="power_production_next_24h_15min",
         translation_key="power_production_next_24h_15min",
-        state=_power_production_next_24h_15min,
+        device_class=SensorDeviceClass.POWER,
+        state=lambda estimate: estimate.power_production_now,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfPower.WATT,
         entity_registry_enabled_default=False,
     ),
 )
@@ -164,3 +167,15 @@ class SolarManagerForecastSensorEntity(
             state = self.entity_description.state(estimate)
 
         return state
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Return extra state attributes."""
+        estimate = self.coordinator.data
+
+        if self.entity_description.key == "power_production_next_24h_15min":
+            return {
+                "forecasts": estimate.power_forecast_next_24h(step_minutes=15, hours=24),
+            }
+
+        return None
