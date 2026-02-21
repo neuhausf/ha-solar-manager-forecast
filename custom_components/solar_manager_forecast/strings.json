@@ -48,6 +48,9 @@
       },
       "power_production_next_30minutes": {
         "name": "Estimated power production in 30 minutes"
+      },
+      "power_production_next_24h_15min": {
+        "name": "Estimated power production next 24h (15-min resolution)"
       }
     }
   }

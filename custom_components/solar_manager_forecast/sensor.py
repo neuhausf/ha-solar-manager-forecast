@@ -34,6 +34,15 @@ class SolarManagerForecastSensorEntityDescription(SensorEntityDescription):
     state: Callable[[Estimate], Any] | None = None
 
 
+def _power_production_next_24h_15min(estimate: Estimate) -> list[int]:
+    """Return estimated power production for the next 24 h in 15-min intervals (96 values)."""
+    now = estimate.now()
+    return [
+        estimate.power_production_at_time(now + timedelta(minutes=15 * i))
+        for i in range(96)  # 96 = 24 hours * 4 intervals per hour
+    ]
+
+
 # Minimal set of sensors – only power, energy sensors are
 # estimated and provided by solar_manager_forecast.py.
 SENSORS: tuple[SolarManagerForecastSensorEntityDescription, ...] = (
@@ -64,6 +73,12 @@ SENSORS: tuple[SolarManagerForecastSensorEntityDescription, ...] = (
         ),
         entity_registry_enabled_default=False,
         native_unit_of_measurement=UnitOfPower.WATT,
+    ),
+    SolarManagerForecastSensorEntityDescription(
+        key="power_production_next_24h_15min",
+        translation_key="power_production_next_24h_15min",
+        state=_power_production_next_24h_15min,
+        entity_registry_enabled_default=False,
     ),
 )
 
@@ -138,7 +153,7 @@ class SolarManagerForecastSensorEntity(
         )
 
     @property
-    def native_value(self) -> StateType:
+    def native_value(self) -> StateType | list[int]:
         """Return the state of the sensor."""
         estimate = self.coordinator.data
 
