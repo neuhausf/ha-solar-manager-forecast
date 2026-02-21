@@ -32,6 +32,7 @@ class SolarManagerForecastSensorEntityDescription(SensorEntityDescription):
     """Describes a Solar Manager Forecast sensor."""
 
     state: Callable[[Estimate], Any] | None = None
+    attributes: Callable[[Estimate], dict[str, Any]] | None = None
 
 
 def _power_production_next_24h_15min(estimate: Estimate) -> list[int]:
@@ -81,6 +82,7 @@ SENSORS: tuple[SolarManagerForecastSensorEntityDescription, ...] = (
         state=lambda estimate: estimate.power_production_now,
         state_class=SensorStateClass.MEASUREMENT,
         native_unit_of_measurement=UnitOfPower.WATT,
+        attributes=lambda estimate: {"forecasts": _power_production_next_24h_15min(estimate)},
         entity_registry_enabled_default=False,
     ),
 )
@@ -156,7 +158,7 @@ class SolarManagerForecastSensorEntity(
         )
 
     @property
-    def native_value(self) -> StateType | list[int]:
+    def native_value(self) -> StateType:
         """Return the state of the sensor."""
         estimate = self.coordinator.data
 
@@ -171,11 +173,6 @@ class SolarManagerForecastSensorEntity(
     @property
     def extra_state_attributes(self) -> dict[str, Any] | None:
         """Return extra state attributes."""
-        estimate = self.coordinator.data
-
-        if self.entity_description.key == "power_production_next_24h_15min":
-            return {
-                "forecasts": estimate.power_forecast_next_24h(step_minutes=15, hours=24),
-            }
-
-        return None
+        if self.entity_description.attributes is None or self.coordinator.data is None:
+            return None
+        return self.entity_description.attributes(self.coordinator.data)
