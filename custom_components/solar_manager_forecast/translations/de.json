@@ -48,6 +48,9 @@
       },
       "power_production_next_30minutes": {
         "name": "Geschätzte PV-Leistung in 30 Minuten"
+      },
+      "power_production_next_24h_15min": {
+        "name": "Geschätzte PV-Leistung nächste 24h (15-Minuten-Auflösung)"
       }
     }
   }
