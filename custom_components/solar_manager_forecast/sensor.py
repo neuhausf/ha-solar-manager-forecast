@@ -65,6 +65,12 @@ SENSORS: tuple[SolarManagerForecastSensorEntityDescription, ...] = (
         entity_registry_enabled_default=False,
         native_unit_of_measurement=UnitOfPower.WATT,
     ),
+    SolarManagerForecastSensorEntityDescription(
+        key="power_forecast_next_24h",
+        translation_key="power_forecast_next_24h",
+        state=lambda estimate: estimate.power_forecast_next_24h,
+        entity_registry_enabled_default=False,
+    ),
 )
 
 

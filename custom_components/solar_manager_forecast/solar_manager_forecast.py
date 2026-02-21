@@ -150,6 +150,15 @@ class Estimate:
         until = now + dt.timedelta(hours=period_hours)
         return _interval_value_sum(now, until, self.wh_hours)
 
+    @property
+    def power_forecast_next_24h(self) -> List[int]:
+        """Return 96 forecasted power values (15-min intervals) for the next 24 hours (in W)."""
+        now = self.now()
+        return [
+            self.power_production_at_time(now + dt.timedelta(minutes=15 * i))
+            for i in range(96)
+        ]
+
 
 class SolarManagerSolarForecast:
     """Client class to fetch and build Solar Manager PV forecast estimates."""
